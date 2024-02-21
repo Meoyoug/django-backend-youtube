@@ -3,7 +3,7 @@ FROM python:3.12
 # 관리자? 지정
 LABEL maintainer = 'meoyong'
 # 파이썬이 실행될때 버퍼링을 활성화하는 환경변수 지정
-ENV PYTHONBUFFERED 1
+ENV PYTHONUNBUFFERED 1
 # 파일, 폴더를 도커 내로 복사
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
