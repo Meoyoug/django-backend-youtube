@@ -19,7 +19,7 @@ services:
       - DB_HOST=db
       - DB_NAME=youtube
       - DB_USER=meoyong
-      - DB_PASS=eodyd456
+      - DB_PASS=password123
     # db라는 컨테이너가 실행되어있어야 이 컨테이너가 실행됨
     depends_on:
       - db
@@ -32,4 +32,4 @@ services:
     environment:
       - POSTGRES_DB=youtube
       - POSTGRES_USER=meoyong
-      - POSTGRES_PASSWORD=eodyd456
+      - POSTGRES_PASSWORD=password123
