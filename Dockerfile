@@ -2,7 +2,7 @@
 FROM python:3.12
 # 관리자? 지정
 LABEL maintainer = 'meoyong'
-# 파이썬이 실행될때 버퍼링을 활성화하는 환경변수 지정
+# 파이썬이 실행될때 버퍼링을 비활성화하는 환경변수 지정
 ENV PYTHONUNBUFFERED 1
 # 파일, 폴더를 도커 내로 복사
 COPY ./requirements.txt /tmp/requirements.txt
@@ -19,10 +19,14 @@ ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     /py/bin/pip install -r /tmp/requirements.txt && \
+    apt-get update && \
+    apt-get install -y postgresql-client build-essential libpq-dev && \
     if [ "$DEV" = "true" ] ; \
         then echo "===THIS IS DEVELOPMENT BUILD===" && \
         /py/bin/pip install -r /tmp/requirements.dev.txt ; \
     fi && \
+    apt-get remove -y --purge build-essential libpq-dev && \
+    apt-get clean && \
     rm -rf /tmp && \
     adduser \
         --disabled-password \
