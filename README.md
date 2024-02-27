@@ -8,6 +8,12 @@
     - nickname
     - is_business(Boolean) : personal, business
 
+#### (1) User Model 생성
+- docker-compose run --rm app sh -c 'django-admin startapp users'
+- app.settings 수정 (AUTH_USER_MODEL = 'users.User' 추가, INSTALLED_APPS = 'users.apps.UsersConfig' 추가)
+- UserModel 작성 (AbstactBaseModel 상속)
+- makemigrations -> migrate 해서 db 적용
+
 2. Video
     - title
     - link
