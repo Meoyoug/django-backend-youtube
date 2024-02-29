@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from drf_spectacular.views import (
     SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 )
@@ -17,4 +17,7 @@ urlpatterns = [
         'api/v1/redoc/',
         SpectacularRedocView.as_view(url_name='schema'),
         name='redoc'),
+    path('api/v1/videos/', include('videos.urls')),
+    path("chat/", include("chat.urls")),
+    path('api/v1/subscriptions/', include('subscriptions.urls')),
 ]

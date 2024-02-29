@@ -24,7 +24,8 @@
     - category
     - views_count
     - User : FK
-
+    - reactions (좋아요, 싫어요 기능)
+    
 3. Like/Dislike
     - Video : FK (Video : 1, Like/Dislike : n)
     - User : FK

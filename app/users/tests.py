@@ -1,8 +1,8 @@
-from django.test import TestCase
+from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
 
 
-class UserTestCase(TestCase):
+class UserTestCase(APITestCase):
     # 회원가입 테스트 코드 함수
     # 이메일과 패스워드를 입력받아 회원가입이 정상적으로 이루어지는지 확인
     def test_create_user(self):

@@ -1,0 +1,35 @@
+from django.db import models
+from common.models import CommonModel
+from users.models import User
+
+
+class Video(CommonModel):
+    CATEGORY_CHOICES = [
+        ('music', 'Music'),
+        ('sports', 'Sports'),
+        ('entertainment', 'Entertainment'),
+        ('education', 'Education'),
+        ('game', 'Game'),
+        ('movie', 'Movie'),
+        ('news', 'News'),
+        ('other', 'Other'),
+    ]
+
+    title = models.CharField(max_length=255)
+    description = models.TextField(max_length=500, blank=True)
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
+    views_count = models.PositiveIntegerField(default=0)
+    thumbnail = models.URLField()  # S3에 업로드후 사용할거기 때문에 URL필드 사용
+    link = models.URLField()
+    video_uploaded_url = models.URLField()
+    video_file = models.FileField(upload_to='storage/')
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def to_dict(self):
+        return {
+            'title': self.title,
+            'category': self.category,
+            'views_count': self.views_count,
+            'description': self.description,
+        }
