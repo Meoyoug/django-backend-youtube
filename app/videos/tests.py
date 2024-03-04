@@ -1,6 +1,8 @@
 from rest_framework.test import APITestCase
 from users.models import User
 from .models import Video
+from reactions.models import Reaction
+from subscriptions.models import Subscription
 from django.urls import reverse
 from rest_framework import status
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -15,6 +17,10 @@ class VideoAPITestCase(APITestCase):
         )
         self.client.login(email='test1@example.com', password='test123')
 
+        self.user2 = User.objects.create_user(
+            email='test2@example.com',
+            password='test123',
+        )
         # 비디오 생성
         self.video = Video.objects.create(
             user=self.user,
@@ -22,17 +28,28 @@ class VideoAPITestCase(APITestCase):
             title='test title',
         )
 
+        # Reaction 생성
+        self.reaction = Reaction.objects.create(
+            user=self.user2, video=self.video, reaction=Reaction.LIKE
+            )
+
+        # subscription 생성
+        self.sub = Subscription.objects.create(
+            subscriber=self.user2, subscribed_to=self.user
+            )
+
     def test_video_list_get(self):
         url = reverse('video-list')
-
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_video_detail_get(self):
         url = reverse('video-detail', kwargs={'pk': self.video.pk})
+        self.client.login(email='test2@example.com', password='test123')
 
         response = self.client.get(url)
+        print(response.data)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 

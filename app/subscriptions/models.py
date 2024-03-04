@@ -3,6 +3,11 @@ from common.models import CommonModel
 from users.models import User
 
 
+class SubscriptionManager(models.Manager):
+    def get_subscriber_count(self, user_id):
+        return Subscription.objects.filter(subscribed_to=user_id).count()
+
+
 class Subscription(CommonModel):
     subscriber = models.ForeignKey(
         User,

@@ -4,6 +4,7 @@ from .models import Video
 from .serializers import VideoSerializer
 from rest_framework.exceptions import NotFound
 from rest_framework import status
+from .services import VideoService
 
 
 # 1.VideoList
@@ -54,10 +55,27 @@ class VideoDetail(APIView):
             raise NotFound
 
     def get(self, request, pk):
+        VideoService.increase_view_count(video_id=pk)
         video = self.get_object(pk)
         serializer = VideoSerializer(video)
-
-        return Response(serializer.data)
+        like_count = VideoService.get_like_count(video_id=pk)
+        dislike_count = VideoService.get_dislike_count(video_id=pk)
+        subscriber_count = VideoService.get_subscriber_count(
+            video_owner=video.user
+            )
+        is_subscribed = VideoService.get_is_subscribed(
+            user_id=request.user, video_owner=video.user
+            )
+        reaction = VideoService.get_reaction(user_id=request.user, video_id=pk)
+        data = {
+            'video_info': serializer.data,
+            'like_count': like_count,
+            'dislike_count': dislike_count,
+            'subscriber_count': subscriber_count,
+            'is_subscribed': is_subscribed,
+            'reaction': reaction
+        }
+        return Response(data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
         video = self.get_object(pk)
@@ -67,7 +85,7 @@ class VideoDetail(APIView):
             serializer = VideoSerializer(video, data=user_data)
             serializer.is_valid()
             serializer.save()
-            return Response(serializer.data, status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response(
