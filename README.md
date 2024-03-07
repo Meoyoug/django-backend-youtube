@@ -88,11 +88,11 @@
 26. 
 ```vim
 DB_HOST=db
-DB_NAME=youtube
-DB_USER=meoyong
-DB_PASS=eodyd456
-SECRET_KEY=dlady@851324697dlaeodyd123
-ALLOWED_HOSTS=ec2-13-125-255-67.ap-northeast-2.compute.amazonaws.com(EC2의 퍼블릭 IPv4 DNS - 배포후에 이쪽으로 접속해줘야하기 때문)
+DB_NAME=name
+DB_USER=user
+DB_PASS=pass
+SECRET_KEY=key
+ALLOWED_HOSTS=(EC2의 퍼블릭 IPv4 DNS - 배포후에 이쪽으로 접속해줘야하기 때문)
 ```
 입력하고 wq하고 저장
 27. docker-compose -f docker-compose-deploy.yml build 명령어로 빌드
