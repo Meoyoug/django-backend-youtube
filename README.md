@@ -68,4 +68,31 @@
 6. 인스턴스에 연결 클릭
 7. 터미널에 ssh-add 키페어파일이름 입력해서 ssh에 키페어 연결
 8. ssh ec2-user@복사한 퍼블릭 ipv4 주소 입력해서 ssh 접속
-9. 
+9. ssh-keygen -t ed25519 -b 4096 입력해서 키젠 생성
+10. cd .ssh -> ls -al -> id_ed25519.pub 파일존재 확인 후 cat 명령어로 열기
+11. 값을 복사해서 깃허브 레포지토리 - settings - Deploy keys - add deploy key 에서 키값에 붙여넣기 후 생성
+12. 터미널에 sudo yum install git -y  입력해서 EC2에 git 설치
+13. 터미널에 sudo yum install docker -y  입력해서 EC2에 docker 설치
+14. sudo systemctl start docker 도커 실행 명령어
+15. sudo systemctl enable docker 시스템 링크를 만들어서 운영가능한 상태로 만들어줌. 시스템 부팅 시 알아서 실행해줌
+16. sudo usermod -aG docker ec2-user : ec2-user에 도커 그룹을 추가한다.
+17. exit해서 종료후 다시실행해서 권한 적용시켜주기
+18. sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose 명령어 실행해서 docker-compose 명령어 사용가능하도록 install 시켜주기
+19. cd /usr/local/bin 로 이동
+20. ls -al 명령어로 docker-compose 존재 확인
+21. sudo chmod +x docker-compose : 슈퍼유저 권한으로 docker-compose 라는 명령어를 실행
+22. cd ~ 로 최상위폴더이동
+23. git clone https://github.com/Meoyoug/django-backend-youtube.git 깃 클론해오기
+24. cd django-backend-youtube 로 클론한 폴더로 이동
+25. vim .env 명령어로 .env 파일 생성
+26. 
+```vim
+DB_HOST=db
+DB_NAME=youtube
+DB_USER=meoyong
+DB_PASS=eodyd456
+SECRET_KEY=dlady@851324697dlaeodyd123
+ALLOWED_HOSTS=ec2-13-125-255-67.ap-northeast-2.compute.amazonaws.com(EC2의 퍼블릭 IPv4 DNS - 배포후에 이쪽으로 접속해줘야하기 때문)
+```
+입력하고 wq하고 저장
+27. docker-compose -f docker-compose-deploy.yml build 명령어로 빌드
