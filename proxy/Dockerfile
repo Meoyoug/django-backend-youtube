@@ -8,7 +8,6 @@ COPY ./run.sh /run.sh
 ENV LISTEN_PORT=8000
 ENV APP_HOST=app
 ENV APP_PORT=9000
-ENV PATH=$PATH:/usr/local/bin
 
 USER root
 
@@ -20,11 +19,10 @@ RUN mkdir -p /var/cache/nginx/client_temp && \
 
 RUN touch /etc/nginx/conf.d/default.conf && \
     chown nginx:nginx /etc/nginx/conf.d/default.conf && \
-    chmod +x docker-entrypoint.sh && \
     chmod +x /run.sh
 
 VOLUME /vol/static
 
 USER nginx
 
-CMD ["~/proxy/run.sh"]
+ENTRYPOINT ["/run.sh"]
