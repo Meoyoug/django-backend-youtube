@@ -21,4 +21,6 @@ VOLUME /vol/static
 
 USER nginx
 
+ENV PATH="/py/bin/:$PATH"
+
 CMD ["/run.sh"]
