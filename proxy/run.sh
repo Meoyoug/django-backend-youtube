@@ -1,8 +1,12 @@
-# !/bin/sh
-
+#!/bin/sh
 set -e
 
-# 도커파일의 ENV 들을 가져와서 복사한다.
+# 'app' 서비스가 시작되기를 기다립니다.
+until nc -z $APP_HOST $APP_PORT; do
+    echo "Waiting for the 'app' service..."
+    sleep 1
+done
+
+echo "'app' service is up - executing command"
 envsubst < /etc/nginx/default.conf.tpl > /etc/nginx/conf.d/default.conf
-# nginx 를 실행시키고 -> nginx -g 백그라운드에올리니까 같이 실행시키는 옵션 -> demon off
-nginx -g 'demon off;'
+nginx -g 'daemon off;'

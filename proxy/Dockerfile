@@ -26,4 +26,4 @@ VOLUME /vol/static
 
 USER nginx
 
-ENTRYPOINT ["/run.sh"]
+CMD ["/run.sh"]

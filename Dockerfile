@@ -43,7 +43,7 @@ RUN python -m venv /py && \
     chmod -R +x /scripts
 
 # 환경변수
-ENV PATH="/py/bin/:$PATH"
+ENV PATH="/scripts:/py/bin:$PATH"
 # 유저생성
 USER django-user
 
