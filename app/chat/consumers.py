@@ -1,47 +1,112 @@
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
+
+import django
+django.setup()
+
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
-# from models import Message, ChatRoom, ChatRoomConnetor
+from django.shortcuts import get_object_or_404
+from users.models import User
+from chat.models import Message, ChatRoom, ChatRoomConnector
+from asgiref.sync import sync_to_async
+from rest_framework import status
+from rest_framework.response import Response
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
+    @sync_to_async
+    def new_chat(self, message):
+        chatroom = get_object_or_404(ChatRoom, id=self.room_id)
+        sender = get_object_or_404(User, id=self.user_id)
+        
+        Message.objects.create(sender=sender, message=message, chatroom=chatroom)
+    
+    @sync_to_async
+    def get_connector(self):
+        return ChatRoomConnector.objects.filter(user=self.user_id, chatroom=self.room_id).first()
+    
+    @sync_to_async
+    def status_changer(self, connector):
+        connector.status = not connector.status
+        connector.save()
+
+    @sync_to_async
+    def create_connector(self):
+        chatroom = get_object_or_404(ChatRoom, id=self.room_id)
+        user = get_object_or_404(User, id=self.user_id)
+
+        return ChatRoomConnector.objects.create(
+            chatroom=chatroom, user=user
+        )
+    
+    # 소켓에 연결
     async def connect(self):
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = 'chat_%s' % self.room_name
+        try:
+            self.room_id = self.scope['url_route']['kwargs']['room_id']
+            self.user_id = self.scope['user'].id
+            self.chat_group_name = 'chat_' + str(self.room_id)
+        except Exception as e:
+            return Response(
+                {'msg': str(e)}, status=status.HTTP_404_NOT_FOUND
+            )
+        
+        self.connector = await self.get_connector()
 
-        # 그룹에 참여합니다.
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )
+        if not self.connector:
+            self.connector = await self.create_connector()
 
-        await self.accept()
+        if self.connector.status:
+            await self.close()
 
-    async def disconnect(self, close_code):
-        # 그룹에서 탈퇴합니다.
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name
-        )
+        else:
+            await self.channel_layer.group_add(
+                self.chat_group_name,
+                self.channel_name
+            )
+            await self.status_changer(self.connector)
+            await self.accept()
 
-    # 클라이언트로부터 메시지를 받습니다.
+    # 메시지 받는 부분
     async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-
-        # 그룹으로 메시지를 보냅니다.
+        try:
+            text_data_json = json.loads(text_data)
+            msg = text_data_json.get('message')
+            user_email = text_data_json.get('user_email')
+        except Exception as e:
+            return Response(
+                {'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST
+            )
         await self.channel_layer.group_send(
-            self.room_group_name,
+            self.chat_group_name,
             {
                 'type': 'chat_message',
-                'message': message
+                'message': msg,
+                'user_email': user_email,
             }
         )
+        await self.new_chat(message=msg)
 
-    # 그룹으로부터 메시지를 받습니다.
+    # 소켓 연결 해제
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
+            self.chat_group_name,
+            self.channel_name
+        )
+        await self.status_changer(self.connector)
+
+    # 그룹으로부터 받은 메시지를 클라이언트에 전달하는 역할
     async def chat_message(self, event):
-        message = event['message']
+        msg = event['message']
+        user_email = event['user_email']
 
-        # 클라이언트로 메시지를 보냅니다.
         await self.send(text_data=json.dumps({
-            'message': message
+            'type': 'chat_message',
+            'message': msg,
+            'user_email': user_email
         }))
+
+# get -> text_data 했을때 검증
+# room_id 제대로 가져오는 지 검증
+# 그룹네임의 존재여부
+# 커넥트 retry

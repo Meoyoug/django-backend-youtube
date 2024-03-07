@@ -8,6 +8,7 @@ ENV PYTHONUNBUFFERED 1
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 COPY ./app /app
+COPY ./scripts /scripts
 
 # /app 경로에서 실행
 WORKDIR /app 
@@ -20,7 +21,7 @@ RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     apt-get update && \
-    apt-get install -y postgresql-client build-essential libpq-dev && \
+    apt-get install -y postgresql-client build-essential libpq-dev zlib1g zlib1g-dev && \
     if [ "$DEV" = "true" ] ; \
         then echo "===THIS IS DEVELOPMENT BUILD===" && \
         /py/bin/pip install -r /tmp/requirements.dev.txt ; \
@@ -31,8 +32,20 @@ RUN python -m venv /py && \
     adduser \
         --disabled-password \
         --no-create-home \
-        django-user
+        django-user && \
+    mkdir -p /vol/web && \
+    # chmod : change mode, chown : change owner
+    chown -R django-user:django-user /vol/ && \
+    # 폴더에 대한 접근 권한부여 
+    chmod -R 755 /vol/web && \
+    # 권한 적용
+    chmod -R +x /scripts
+
 # 환경변수
 ENV PATH="/py/bin/:$PATH"
 # 유저생성
 USER django-user
+
+CMD ["run.sh"]
+
+# 압축 풀어주는거 : zliblg zliblg-dev, linux-headers: 리눅스 명령어에서 커널 시스템 설정해주는 거

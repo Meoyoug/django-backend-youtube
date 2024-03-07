@@ -35,6 +35,7 @@ class CustomUserAdmin(UserAdmin):
 
     # 표에서 보이는 정보
     list_display = (
+        'id',
         'email',
         'nickname',
         'is_business',

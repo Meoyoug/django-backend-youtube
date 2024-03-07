@@ -2,6 +2,7 @@ from django.db import models
 from common.models import CommonModel
 from users.models import User
 from videos.models import Video
+from django.db.models import Q, Count
 
 
 # 유튜브는 좋아요(like), 싫어요(dislike), 제거(removelike)로 구분
@@ -24,13 +25,11 @@ class Reaction(CommonModel):
         default=NO_REACTION
     )
 
-    # def removelike(self):
-    #     self.reaction = self.NO_REACTION
-    #     self.save()
-
-    # def change_like(self, alg):
-    #     if alg == 'like':
-    #         self.reaction = self.LIKE
-    #     else:
-    #         self.reaction = self.DISLIKE
-    #     self.save()
+    @staticmethod
+    def get_video_reaction(video):
+        reactions = Reaction.objects.filter(video=video).aggregate(
+            like_count = Count('pk', filter=Q(reaction=Reaction.LIKE)),
+            dislike_count = Count('pk', filter=Q(reaction=Reaction.DISLIKE))
+        )
+        
+        return reactions

@@ -1,6 +1,15 @@
 from django.db import models
 from common.models import CommonModel
 from users.models import User
+from django.db import models
+
+
+# class VideoManager(models.Manager):
+#     def get_queryset(self):
+#         return super().get_queryset().annotate(
+#             likes_count=models.Count('reaction', filter=models.Q(reaction__reaction=1)),
+#             dislikes_count=models.Count('reaction', filter=models.Q(reaction__reaction=-1)),
+#         )
 
 
 class Video(CommonModel):
@@ -25,6 +34,8 @@ class Video(CommonModel):
     video_file = models.FileField(upload_to='storage/')
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # objects = VideoManager()
 
     def to_dict(self):
         return {

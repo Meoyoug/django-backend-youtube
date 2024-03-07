@@ -1,5 +1,8 @@
 from rest_framework.test import APITestCase
+from django.urls import reverse
 from django.contrib.auth import get_user_model
+from .models import User
+import pdb
 
 
 class UserTestCase(APITestCase):
@@ -30,3 +33,24 @@ class UserTestCase(APITestCase):
         self.assertTrue(super_user.check_password(password))
         self.assertTrue(super_user.is_staff)
         self.assertTrue(super_user.is_superuser)
+
+    def test_login_user(self):
+        self.user = User.objects.create_user(email='testemail@gmail.com', password='testpassword')
+        url = reverse('login')
+        data = {'email': 'testemail@gmail.com', 'password': 'testpassword'}
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 200)
+
+    def test_logout_user(self):
+        self.user = User.objects.create_user(email='testemail@gmail.com', password='testpassword')
+        self.client.login(email='testemail@gmail.com', password='testpassword')
+        url = reverse('logout')
+        response = self.client.post(url)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_signup_user(self):
+        url = reverse('register')
+        data = {'email': 'testemail@gmail.com', 'nickname': 'testnick', 'password': 'testpass', 'password2': 'testpass'}
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 201)
