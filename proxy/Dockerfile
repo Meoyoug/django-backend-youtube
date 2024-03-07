@@ -13,8 +13,12 @@ ENV PATH=$PATH:/usr/local/bin
 USER root
 
 RUN mkdir -p /vol/static && \
-    chmod 755 /vol/static && \
-    touch /etc/nginx/conf.d/default.conf && \
+    chmod 755 /vol/static
+    
+RUN mkdir -p /var/cache/nginx/client_temp && \
+    chown -R nginx:nginx /var/cache/nginx
+    
+RUN touch /etc/nginx/conf.d/default.conf && \
     chown nginx:nginx /etc/nginx/conf.d/default.conf && \
     chmod +x /run.sh
 
@@ -22,4 +26,4 @@ VOLUME /vol/static
 
 USER nginx
 
-CMD CMD ["/scripts/run.sh"]
+CMD CMD ["/run.sh"]
