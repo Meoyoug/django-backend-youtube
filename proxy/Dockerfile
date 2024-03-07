@@ -22,4 +22,4 @@ VOLUME /vol/static
 
 USER nginx
 
-CMD ["run.sh"]
+CMD ["/proxy/run.sh"]
