@@ -3,6 +3,7 @@
 set -e
 
 python manage.py wait_for_db
+python manage.py collectstatic --noinput
 python manage.py migrate
 
 # uWSGI: Nginx 로부터 데이터를 받아오면 장고랑 소통하는 역할
