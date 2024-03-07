@@ -33,11 +33,12 @@ RUN python -m venv /py && \
         --disabled-password \
         --no-create-home \
         django-user && \
-    mkdir -p /vol/web && \
+    mkdir -p /vol/web/media && \
+    mkdir -p /vol/web/static && \
     # chmod : change mode, chown : change owner
-    chown -R django-user:django-user /vol/ && \
+    chown -R django-user:django-user /vol && \
     # 폴더에 대한 접근 권한부여 
-    chmod -R 755 /vol/web && \
+    chmod -R 755 /vol && \
     # 권한 적용
     chmod -R +x /scripts
 
