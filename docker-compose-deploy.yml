@@ -6,7 +6,6 @@ services:
     restart: always
     volumes:
       - static_data:/vol/web
-    command: daphne -b 0.0.0.0 -p 8000 app.route:application
     environment:
       - DB_HOST=db
       - DB_NAME=${DB_NAME}

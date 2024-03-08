@@ -5,6 +5,11 @@ COPY ./default.conf.tpl /etc/nginx/default.conf.tpl
 COPY ./uwsgi_params /etc/nginx/uwsgi_params
 COPY ./run.sh /run.sh
 
+ENV LISTEN_PORT=80
+ENV APP_HOST=app
+ENV WSGI_PORT=9000
+ENV ASGI_PORT=8000
+
 USER root
 
 RUN mkdir -p /vol/static && \
