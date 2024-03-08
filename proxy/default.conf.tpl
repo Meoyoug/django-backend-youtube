@@ -1,7 +1,3 @@
-upstream daphne {
-    server daphne:8000;
-}
-
 server {
     listen 80               default_server;
     include                 /etc/nginx/uwsgi_params;
@@ -13,7 +9,7 @@ server {
     }
 
     location /ws/chat/ {
-      proxy_pass https://daphne;
+      proxy_pass https:ec2-52-78-65-231.ap-northeast-2.compute.amazonaws.com;
       proxy_http_version 1.1;
     }
 
