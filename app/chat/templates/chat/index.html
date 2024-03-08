@@ -43,7 +43,6 @@
                         roomDiv.innerHTML = `<p>${room.roomname} : ${room.id}</p>`;
                         roomDiv.innerHTML += `<button onclick="enterChatRoom(${room.id})">참가하기</button>`
                         roomDiv.onclick = function() {
-                        // 현재 연결된 WebSocket 객체가 있으면 닫음
                             enterChatRoom(room.id);
                         };
                         roomContainer.appendChild(roomDiv);

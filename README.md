@@ -95,4 +95,8 @@ SECRET_KEY=key
 ALLOWED_HOSTS=(EC2의 퍼블릭 IPv4 DNS - 배포후에 이쪽으로 접속해줘야하기 때문)
 ```
 입력하고 wq하고 저장
-27. docker-compose -f docker-compose-deploy.yml build 명령어로 빌드
+27. 장고 settings.py에 CORS_ALLOWED_ORIGINS = [
+    'EC2 ipv4 도메인주소 입력'
+]
+28. docker-compose -f docker-compose-deploy.yml build 명령어로 빌드
+29. docker-compose -f docker-compose-deploy.yml up 명령어로 서버실행
