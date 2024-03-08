@@ -42,6 +42,5 @@ volumes:
   static_data:
 
 networks:
-  default:
-    external:
-      name: app_default
+  app_default:
+    external: true
