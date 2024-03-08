@@ -18,9 +18,6 @@ server {
         uwsgi_pass uwsgi_backend;
         include /etc/nginx/uwsgi_params;
         client_max_body_size 10M;
-
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
     }
 }
 
