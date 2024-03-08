@@ -1,3 +1,7 @@
+upstream daphne {
+    server daphne:8000;
+}
+
 server {
     listen 80               default_server;
     include                 /etc/nginx/uwsgi_params;
@@ -9,7 +13,7 @@ server {
     }
 
     location /ws/chat/ {
-      proxy_pass ${APP_HOST}:8000;
+      proxy_pass https://daphne;
       proxy_http_version 1.1;
     }
 
