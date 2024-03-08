@@ -16,18 +16,6 @@ services:
     depends_on:
       - db
 
-  daphne:
-    build: 
-      context: .
-    restart: always
-    command: daphne -b 0.0.0.0 -p 8000 app.route:application
-    volumes:
-      - .:/code
-    ports:
-      - "8000:8000"
-    depends_on:
-      - app
-
   db:
     image: postgres:16
     restart: always
