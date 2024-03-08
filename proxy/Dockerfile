@@ -22,7 +22,7 @@ RUN mkdir -p /var/cache/nginx/client_temp && \
         listen       80; \
         server_name  localhost; \
         location / { \
-            add_header Access-Control-Allow-Origin "*"; \
+            add_header Access-Control-Allow-Origin "ec2-52-78-65-231.ap-northeast-2.compute.amazonaws.com"; \
         } \
     }' /etc/nginx/nginx.conf && \
     chmod 777 /var/run
