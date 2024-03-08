@@ -1,5 +1,5 @@
 upstream uwsgi {
-    server app:9000;
+    server django:9000;
 }
 
 upstream daphne {
