@@ -1,9 +1,5 @@
-upstream uwsgi {
-  server  uwsgi:${APP_PORT};
-}
-
 upstream daphne {
-    server daphne:${LISTEN_PORT};
+    server daphne:8000;
 }
 
 map $http_upgrade $connection_upgrade {
@@ -18,7 +14,7 @@ server {
 
     location / {
       include /etc/nginx/uwsgi_params;
-      uwsgi_pass uwsgi;
+      uwsgi_pass ${APP_HOST}:${APP_PORT};
 
       uwsgi_param Host $host;
       uwsgi_param X-Real-IP $remote_addr;
@@ -27,7 +23,7 @@ server {
     }
 
     location /ws/chat/<int:room_id>/ {
-      proxy_pass http://daphne;
+      proxy_pass http://daphne:8000;
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection $connection_upgrade;
