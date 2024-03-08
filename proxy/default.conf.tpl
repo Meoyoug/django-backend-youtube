@@ -1,7 +1,3 @@
-upstream daphne {
-    server daphne:8000;
-}
-
 map $http_upgrade $connection_upgrade {
   default upgrade;
     '' close;
@@ -22,8 +18,8 @@ server {
       uwsgi_param X-Forwarded-Proto $http_x_forwarded_proto;
     }
 
-    location /ws/chat/<int:room_id>/ {
-      proxy_pass http://daphne:8000;
+    location /ws/chat/ {
+      proxy_pass ${APP_HOST}:8000;
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection $connection_upgrade;
