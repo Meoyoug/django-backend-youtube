@@ -19,6 +19,8 @@ if os.environ.get('ALLOWED_HOST'):
 else:
     ALLOWED_HOSTS = ['*']
 
+ALLOWED_HOSTS.append('chatting_group')
+
 
 # Application definition
 DJANGO_SYSTEM_APPS = [
