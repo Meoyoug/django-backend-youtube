@@ -2,7 +2,7 @@ server {
     listen 80;
 
     location / {
-        uwsgi_pass django;
+        uwsgi_pass django:9000;
         include /etc/nginx/uwsgi_params;
         client_max_body_size 10M;
 
