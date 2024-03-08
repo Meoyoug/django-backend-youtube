@@ -25,7 +25,7 @@ server {
     listen ${DAPHNE_PORT};
 
     location / {
-        proxy_pass https://ec2-52-78-65-231.ap-northeast-2.compute.amazonaws.com;
+        proxy_pass http://daphne_backend;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
