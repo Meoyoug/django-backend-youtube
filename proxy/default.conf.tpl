@@ -1,5 +1,8 @@
+upstream daphne {
+    server daphne:8000;
+}
 server {
-    listen 80;
+    listen {LITSTEN_PORT};
     
     location /static {
           alias /vol/static;

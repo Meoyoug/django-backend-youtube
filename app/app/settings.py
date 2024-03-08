@@ -14,13 +14,7 @@ SECRET_KEY = 'test'
 DEBUG = True
 import os
 
-if os.environ.get('ALLOWED_HOST'):
-    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOST')
-else:
-    ALLOWED_HOSTS = ['*']
-
-ALLOWED_HOSTS.append('chatting_group')
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 DJANGO_SYSTEM_APPS = [
