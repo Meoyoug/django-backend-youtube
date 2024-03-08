@@ -4,7 +4,6 @@ from videos.models import Video
 from .models import Comment
 from rest_framework import status
 from django.urls import reverse
-import pdb
 
 
 class CommentAPITestCase(APITestCase):
@@ -40,6 +39,5 @@ class CommentAPITestCase(APITestCase):
         )
         url = reverse('video-comment', kwargs={'video_id': self.video.id})
         response = self.client.get(url)
-        pdb.set_trace()
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)

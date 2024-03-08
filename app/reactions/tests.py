@@ -4,7 +4,6 @@ from users.models import User
 from videos.models import Video
 from .models import Reaction
 from django.urls import reverse
-import pdb
 
 
 class ReactionAPITestCase(APITestCase):
@@ -30,7 +29,6 @@ class ReactionAPITestCase(APITestCase):
             'reaction': Reaction.LIKE
         }
         response = self.client.post(url, data)
-        pdb.set_trace()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Reaction.objects.count(), 1)
         self.assertEqual(
