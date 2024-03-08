@@ -6,8 +6,6 @@ services:
     restart: always
     volumes:
       - static_data:/vol/web
-    ports: 
-      - "9000:9000"
     environment:
       - DB_HOST=db
       - DB_NAME=${DB_NAME}
