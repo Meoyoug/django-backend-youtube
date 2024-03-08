@@ -7,7 +7,7 @@ server {
     client_max_body_size 50M;
 
     location / {
-        uwsgi_pass               ${APP_HOST}:${APP_PORT};
+        uwsgi_pass               app:8000;
         include                  /etc/nginx/uwsgi_params;
         client_max_body_size     10M;
         add_header Access-Control-Allow-Origin "http://ec2-52-78-65-231.ap-northeast-2.compute.amazonaws.com";
