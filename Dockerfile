@@ -21,7 +21,6 @@ RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     apt-get update && \
-    apt-get install netcat-traditional && \
     apt-get install -y postgresql-client build-essential libpq-dev zlib1g zlib1g-dev && \
     if [ "$DEV" = "true" ] ; \
         then echo "===THIS IS DEVELOPMENT BUILD===" && \
