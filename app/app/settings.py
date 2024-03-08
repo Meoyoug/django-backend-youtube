@@ -12,8 +12,12 @@ SECRET_KEY = 'test'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+import os
 
-ALLOWED_HOSTS = ['*']
+if os.environ.get('ALLOWED_HOST'):
+    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOST')
+else:
+    ALLOWED_HOSTS = ['*']
 
 
 # Application definition
