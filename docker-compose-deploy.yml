@@ -6,6 +6,7 @@ services:
     restart: always
     volumes:
       - static_data:/vol/web
+    command: daphne -b 0.0.0.0 -p 8000 app.route:application
     environment:
       - DB_HOST=db
       - DB_NAME=${DB_NAME}
@@ -26,25 +27,6 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
 
-  uwsgi:
-    build: .
-    restart: always
-    # uWSGI: Nginx 로부터 데이터를 받아오면 장고랑 소통하는 역할
-    # 파이썬 워커는 4 개 쓸거고 쓰레드를 사용가능하게 하겠다.라는 의미.
-    command: uwsgi --socket :9000 --workers 4 --master --enable-threads --module app.wsgi
-    volumes:
-      - .:/code
-    networks: 
-      - webnet
-  
-  daphne:
-    build: .
-    command: daphne -b 0.0.0.0 -p 8000 app.route:application
-    volumes:
-      - .:/code
-    networks: 
-      - webnet
-
   proxy:
     build:
       context: ./proxy
@@ -53,7 +35,6 @@ services:
       - 80:8000
     depends_on:
       - app
-      - uwsgi
     volumes:
       - static_data:/vol/static
 
