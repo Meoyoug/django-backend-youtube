@@ -1,9 +1,9 @@
 upstream uwsgi {
-    server app:8000;
+    server app:9000;
 }
 
 upstream daphne {
-    server daphne:9000;
+    server daphne:8000;
 }
 
 server {
