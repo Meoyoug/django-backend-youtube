@@ -3,7 +3,7 @@ upstream daphne_backend {
 }
 
 upstream uwsgi_backend {
-    server uwsgi:${UWSGI_PORT};
+    server app:${UWSGI_PORT};
 }
 
 server {
