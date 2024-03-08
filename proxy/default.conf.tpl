@@ -1,7 +1,3 @@
-upstream uwsgi {
-    server django:9000;
-}
-
 upstream daphne {
     server daphne:8000;
 }
@@ -10,7 +6,7 @@ server {
     listen 80;
 
     location / {
-        proxy_pass http://uwsgi;
+        uwsgi_pass django:9000;
         include /etc/nginx/uwsgi_params;
         client_max_body_size 10M;
 
