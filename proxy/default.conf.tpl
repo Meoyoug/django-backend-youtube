@@ -6,11 +6,6 @@ server {
         include /etc/nginx/uwsgi_params;
         client_max_body_size 10M;
 
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $host;
-        proxy_redirect off;
-        proxy_set_header X-Real-IP $remote_addr;
-
         add_header Access-Control-Allow-Origin "http://ec2-52-78-65-231.ap-northeast-2.compute.amazonaws.com";
     }
 
