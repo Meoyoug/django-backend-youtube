@@ -1,5 +1,5 @@
 upstream daphne_backend {
-    server daphne:${DAPHNE_PORT};
+    server app:${DAPHNE_PORT};
 }
 
 upstream uwsgi_backend {
