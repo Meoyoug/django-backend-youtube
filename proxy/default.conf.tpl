@@ -1,7 +1,3 @@
-upstream daphne {
-    server daphne:8000;
-}
-
 server {
     listen 80;
 
@@ -19,7 +15,7 @@ server {
     }
 
     location /ws/ {
-        proxy_pass http://daphne;
+        daphne_pass daphne:8000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
