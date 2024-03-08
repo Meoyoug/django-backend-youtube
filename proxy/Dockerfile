@@ -17,7 +17,7 @@ RUN mkdir -p /vol/static && \
 RUN mkdir -p /var/cache/nginx/client_temp && \
     chown -R nginx:nginx /var/cache/nginx && \
     chmod 777 /etc/nginx/nginx.conf && \
-    echo "location / { add_header 'Access-Control-Allow-Origin' '*';}" >> /etc/nginx/nginx.conf && \
+    sed -i '/^http {/a location \/ { add_header Access-Control-Allow-Origin "*"; }' /etc/nginx/nginx.conf && \
     chmod 777 /var/run
 
 RUN touch /etc/nginx/conf.d/default.conf && \
