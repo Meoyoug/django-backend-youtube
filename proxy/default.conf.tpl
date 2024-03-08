@@ -14,6 +14,9 @@ server {
     }
 }
 server{
+    listen 443;
+    client_max_body_size 50M;
+
     location /ws/chat {
         proxy_pass http://daphne;
         proxy_http_version 1.1;
