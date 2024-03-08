@@ -120,16 +120,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = 'static/'
-
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
@@ -137,7 +127,6 @@ AUTH_USER_MODEL = 'users.User'
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASS':(
-        # 'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication'
     )
 }
@@ -155,5 +144,5 @@ MEDIA_ROOT = '/vol/web/media'
 STATIC_ROOT = '/vol/web/static'
 
 CORS_ALLOWED_ORIGINS = [
-    ''
+    'ec2-52-78-65-231.ap-northeast-2.compute.amazonaws.com'
 ]
