@@ -144,5 +144,5 @@ MEDIA_ROOT = '/vol/web/media'
 STATIC_ROOT = '/vol/web/static'
 
 CORS_ALLOWED_ORIGINS = [
-    'ec2-52-78-65-231.ap-northeast-2.compute.amazonaws.com'
+    'https://ec2-52-78-65-231.ap-northeast-2.compute.amazonaws.com'
 ]

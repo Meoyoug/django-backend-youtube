@@ -1,30 +1,33 @@
+upstream daphne_backend {
+    server daphne:${DAPHNE_PORT};
+}
+
+upstream uwsgi_backend {
+    server uwsgi:${UWSGI_PORT};
+}
+
 server {
     listen ${LISTEN_PORT};
-    server_name ec2-52-78-65-231.ap-northeast-2.compute.amazonaws.com;
 
-    location / {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+    location /static {
+        alias /vol/static;
     }
 
-    location /uwsgi/ {
-        proxy_pass http://127.0.0.1:9000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-    
     location / {
-        add_header 'Access-Control-Allow-Origin' '*';
-        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-        add_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
-        add_header 'Access-Control-Max-Age' 1728000;
-        add_header 'Content-Type' 'text/plain; charset=utf-8';
-        add_header 'Content-Length' 0;
-        return 204;
+        add_header Access-Control-Allow-Origin "ec2-52-78-65-231.ap-northeast-2.compute.amazonaws.com";
+        uwsgi_pass uwsgi_backend;
+        include /etc/nginx/uwsgi_params;
+        client_max_body_size 10M;
+    }
+}
+
+server {
+    listen ${DAPHNE_PORT};
+
+    location / {
+        proxy_pass https://ec2-52-78-65-231.ap-northeast-2.compute.amazonaws.com;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
     }
 }
