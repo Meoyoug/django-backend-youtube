@@ -1,8 +1,8 @@
 server {
-    listen ${LISTEN_PORT};
+    listen $LISTEN_PORT;
 
     location / {
-            proxy_pass http://${APP_HOST}:${APP_PORT};
+            proxy_pass http://$APP_HOST:$APP_PORT;
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
