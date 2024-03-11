@@ -77,15 +77,9 @@ class ChatMessageList(APIView):
         return Response(
             serializer.errors, status=status.HTTP_400_BAD_REQUEST
         )
-    def get_messages(room_id: int):
+
+    def get(self, request, room_id):
         messages = Message.objects.filter(chatroom=room_id).order_by('created_at')[:30]
         serializer = MessageSerializer(messages, many=True)
 
-        return serializer.data    
-    
-    def get(self, request, room_id):
-        # chatroom = get_object_or_404(ChatRoom, id=room_id)
-        # messages = Message.objects.filter(chatroom=chatroom).order_by('created_at')
-        # serializer = MessageSerializer(messages, many=True)
-
-        return Response(self.get_messages(room_id=room_id), status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
