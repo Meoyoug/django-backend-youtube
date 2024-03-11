@@ -143,6 +143,7 @@ MEDIA_URL = '/static/media/'
 MEDIA_ROOT = '/vol/web/media'
 STATIC_ROOT = '/vol/web/static'
 
-CORS_ALLOWED_ORIGINS = [
-    'https://ec2-43-203-141-42.ap-northeast-2.compute.amazonaws.com'
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'https://ec2-43-203-141-42.ap-northeast-2.compute.amazonaws.com'
+# ]
+CORS_ORIGIN_ALLOW_ALL = True

@@ -19,7 +19,6 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
         add_header Cross-Origin-Opener-Policy "same-origin";
-        add_header Access-Control-Allow-Origin "ec2-43-203-141-42.ap-northeast-2.compute.amazonaws.com";
 
         proxy_redirect off;
         proxy_set_header Host $host;
