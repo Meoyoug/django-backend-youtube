@@ -21,8 +21,6 @@ RUN mkdir -p /var/cache/nginx/client_temp && \
 RUN touch /etc/nginx/conf.d/default.conf && \
     chown nginx:nginx /etc/nginx/conf.d/default.conf && \
     chmod +x /run.sh && \
-    chmod +x docker-entrypoint.sh && \
-    chmod +x /docker-entrypoint-initdb.d/init.sql
 
 VOLUME /vol/static
 
