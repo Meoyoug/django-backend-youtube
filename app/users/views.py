@@ -44,7 +44,7 @@ class Logout(APIView):
     
 class Signup(APIView):
     def post(self, request):
-        user = User.objects.create_user(email=request.data['email'], password=request.data['password'], nickname=request.data['nickname'])
+        User.objects.create_user(email=request.data['email'], password=request.data['password'], nickname=request.data['nickname'])
 
         return Response(request.data, status=status.HTTP_201_CREATED)
         
