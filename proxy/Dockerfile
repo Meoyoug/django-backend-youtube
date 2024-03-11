@@ -20,7 +20,8 @@ RUN mkdir -p /var/cache/nginx/client_temp && \
 
 RUN touch /etc/nginx/conf.d/default.conf && \
     chown nginx:nginx /etc/nginx/conf.d/default.conf && \
-    chmod +x /run.sh && \
+    chmod +x /run.sh
+    
 
 VOLUME /vol/static
 
