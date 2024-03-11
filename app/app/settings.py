@@ -53,7 +53,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.websocket.WebSocketMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -145,5 +144,5 @@ MEDIA_ROOT = '/vol/web/media'
 STATIC_ROOT = '/vol/web/static'
 
 CORS_ALLOWED_ORIGINS = [
-    'https://ec2-52-78-65-231.ap-northeast-2.compute.amazonaws.com'
+    'https://ec2-43-203-205-96.ap-northeast-2.compute.amazonaws.com'
 ]
