@@ -33,7 +33,7 @@
         let chatSocket = null; // 전역 변수로 WebSocket 선언
         
         function fetchChatRooms() {
-            fetch('http://127.0.0.1:8000/api/v1/chat/room')
+            fetch('/api/v1/chat/room')
                 .then(response => response.json())
                 .then(data => {
                     const roomContainer = document.getElementById('room-container');
@@ -100,7 +100,7 @@
 
         
         function loadChatRoom(roomId) {
-            fetch(`http://127.0.0.1:8000/api/v1/chat/${roomId}/messages`)
+            fetch(`/api/v1/chat/${roomId}/messages`)
                 .then(response => response.json())
                 .then(messages => {
                     const chatLog = document.getElementById('chat-log');
